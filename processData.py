@@ -87,16 +87,23 @@ def writeJson(handle):
             data_tmp.append(line)
     for row in data_tmp:
         stuff = row.split(':')
-        if len(stuff) == 2 or len(stuff) == 3:
+        if len(stuff) == 2:
             print(stuff[0], stuff[1])
+        elif len(stuff) == 3:
+            print(stuff[0], stuff[1], stuff[2])
         else:
             data_json.append({
                 'ci': stuff[0],
                 'first_name': stuff[1],
                 'last_name': stuff[2],
                 'birthday': stuff[3],
+                'code1': stuff[4],
                 'sex': stuff[5],
+                'type': stuff[6],
+                'age': stuff[7],
                 'nationality': stuff[8],
+                'code2': stuff[9],
+                'code3': stuff[10].rstrip(),
             })
     return data_json
 
@@ -160,10 +167,8 @@ if __name__ == '__main__':
                 print('File not found')
                 continue
             res = ext(file_input)
-            data_frame = pd.readDataFrame(file_input, res)
-            print(data_frame)
-            cols = data_frame.columns.ravel()
-            print(cols)
+            data_frame = readDataFrame(file_input, res)
+            printDataFrame(data_frame)
             end = timeNow(datetime.now())
             time_run = end - start
             print(printMessage(start, end, time_run, file_input))
