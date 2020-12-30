@@ -8,7 +8,8 @@ def menu():
     print('\t3 Clean quotes and save to json')
     print('\t4 Verifycate quotes')
     print('\t5 Clean screen')
-    print('\t6 Exit')
+    print('\t6 Create query')
+    print('\t7 Exit')
 
 def ext(data):
     ext = data.split('.')
@@ -222,6 +223,8 @@ if __name__ == '__main__':
         elif options == '5':
             os.system('clear')
         elif options == '6':
+            pass
+        elif options == '7':
             break
         else:
             continue
