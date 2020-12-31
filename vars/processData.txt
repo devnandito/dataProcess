@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 25
+=======
+36
+>>>>>>> 2b9717cf9d2efb676cb30d69d6776abc162a6cbe
 processData
