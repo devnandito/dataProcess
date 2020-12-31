@@ -15,8 +15,8 @@ pbar = ProgressBar()
 
 def run(url, init, finish):
     list_uri = []
-    for item in pbar(range(init,finish)):
-    # for item in range(init,finish):
+    #for item in pbar(range(init,finish)):
+    for item in range(init,finish):
         ci = str(item)
         uri = url + ci
         response = requests.get(uri)
