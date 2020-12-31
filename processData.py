@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import os, sys, re, csv, json, pandas as pd, sqlite3, json
-=======
-import os, sys, re, csv, json, pandas as pd, sqlite3
->>>>>>> 2b9717cf9d2efb676cb30d69d6776abc162a6cbe
 from datetime import datetime, timedelta
 
 def menu():
@@ -15,11 +11,8 @@ def menu():
     print('\t6 Verifycate quotes')
     print('\t7 Create query')
     print('\t8 Execute query')
-<<<<<<< HEAD
     print('\t9 Create insert')
     print('\t10 Create query form json file')
-=======
->>>>>>> 2b9717cf9d2efb676cb30d69d6776abc162a6cbe
 
 def ext(data):
     ext = data.split('.')
@@ -251,10 +244,7 @@ if __name__ == '__main__':
             f_open.write(query)
             f_open.close()
         elif options == '8':
-<<<<<<< HEAD
             start = timeNow(datetime.now())
-=======
->>>>>>> 2b9717cf9d2efb676cb30d69d6776abc162a6cbe
             db_name = input('Enter db name:')
             try:
                 query = input('Enter query file:')
@@ -271,7 +261,6 @@ if __name__ == '__main__':
             conn.commit()
             cur.close()
             f_open.close()
-<<<<<<< HEAD
             end = timeNow(datetime.now())
             time_run = end - start
             print(printMessage(start, end, time_run, file_input))
@@ -323,7 +312,5 @@ if __name__ == '__main__':
             except:
                 print('File not found')
                 continue
-=======
->>>>>>> 2b9717cf9d2efb676cb30d69d6776abc162a6cbe
         else:
             continue
