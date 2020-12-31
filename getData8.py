@@ -44,9 +44,10 @@ if __name__ == '__main__':
         list1.append(x)
 
     init = int(list1[0])
-    finish = int(list1[0])+int(100)
+    finish = int(list1[0])+int(1000)
+    # finish = int(list1[0])+int(100)
     count = int(list1[1])
-    ext=".csv"
+    ext=".json"
     tfile = "%s%s%s"%(list1[2].rstrip('\n'),list1[1].rstrip('\n'),ext)
     nfile = os.path.join(BASE_DIR, 'dataProcess/results/8/'+tfile)
     f.close()
