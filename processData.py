@@ -1,4 +1,4 @@
-import os, sys, re, csv, json, pandas as pd, sqlite3
+import os, sys, re, csv, json, pandas as pd, sqlite3, json
 from datetime import datetime, timedelta
 
 def menu():
@@ -11,6 +11,8 @@ def menu():
     print('\t6 Verifycate quotes')
     print('\t7 Create query')
     print('\t8 Execute query')
+    print('\t9 Create insert')
+    print('\t10 Create query form json file')
 
 def ext(data):
     ext = data.split('.')
@@ -242,6 +244,7 @@ if __name__ == '__main__':
             f_open.write(query)
             f_open.close()
         elif options == '8':
+            start = timeNow(datetime.now())
             db_name = input('Enter db name:')
             try:
                 query = input('Enter query file:')
@@ -258,5 +261,56 @@ if __name__ == '__main__':
             conn.commit()
             cur.close()
             f_open.close()
+            end = timeNow(datetime.now())
+            time_run = end - start
+            print(printMessage(start, end, time_run, file_input))
+        elif options == '9':
+            try:
+                start = timeNow(datetime.now())
+                db_name = input('Enter db name:')
+                table_name = input('Enter table name:')
+                folder = 'db'
+                path_db = pathFile(db_name, folder)
+                conn = sqlite3.connect(path_db)
+                cur = conn.cursor()
+                file_input = fileInput()
+                with open(file_input) as f:
+                    data = json.load(f)
+                for row in data:
+                    cur.execute('''
+                    INSERT INTO {} 
+                    (ci, first_name, last_name, birthday, code1, sex, type, nationality, code2, code3) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''.format(table_name), 
+                    (row['ci'], row['first_name'], row['last_name'], row['birthday'], row['code1'], row['sex'], row['type'], row['nationality'], row['code2'], row['code3'],)
+                    )
+                    print(row)
+                    conn.commit()
+                cur.close()
+                end = timeNow(datetime.now())
+                time_run = end - start
+                print(printMessage(start, end, time_run, file_input))
+            except:
+                print('File not found')
+                continue
+        elif options == '10':
+            try:
+                start = timeNow(datetime.now())
+                table_name = input('Enter table name:')
+                folder = 'queries'
+                file_input = fileInput()
+                with open(file_input) as f:
+                    data = json.load(f)
+                query_file = input('Enter query name:')
+                path_query = pathFile(query_file, folder)
+                with open(path_query, 'w+') as f:
+                    for row in data:
+                        query_insert = 'INSERT INTO {} (ci, first_name, last_name, birthday, code1, sex, type, nationality, code2, code3) VALUES ("{}", "{}", "{}", "{}", "{}", {}, "{}", "{}", "{}", "{}"); \n'.format(table_name, row['ci'], row['first_name'], row['last_name'], row['birthday'], row['code1'], row['sex'], row['type'], row['nationality'], row['code2'], row['code3'])
+                        f.write(query_insert)
+                end = timeNow(datetime.now())
+                time_run = end - start
+                print(printMessage(start, end, time_run, file_input))
+            except:
+                print('File not found')
+                continue
         else:
             continue
