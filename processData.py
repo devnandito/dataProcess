@@ -111,6 +111,21 @@ def writeJson(handle):
             })
     return data_json
 
+# def writeCsv(handle, file_output, folder):
+#     output = pathFile(file_output, folder)
+#     data_csv = list()
+#     for line in handle:
+#         xsearch = (r'\"(.*)\"')
+#         stuff = re.search(xsearch, line)
+#         if stuff:
+#             data = re.findall(xsearch, line)
+#             print(data[0])
+#             data_csv.append(data[0])
+#         else:
+#             data_csv.append(line)
+#     return data_csv
+
+
 def saveJson(ofile):
     with open(ofile, 'w+') as outfile:
         json.dump(data_json, outfile, indent=4, ensure_ascii=False)
@@ -167,6 +182,8 @@ if __name__ == '__main__':
                 try:
                     data_frame = readDataFrame(file_input, res)
                     printDataFrame(data_frame)
+                    ofile = pathFile(file_output, folder)
+                    data_frame.to_csv(ofile, index=False)
                 except:
                     print('File not found')
                     continue
