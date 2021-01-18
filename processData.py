@@ -11,8 +11,9 @@ def menu():
     print('\t6 Verifycate quotes')
     print('\t7 Create query')
     print('\t8 Execute query')
-    print('\t9 Create insert')
-    print('\t10 Create query form json file')
+    print('\t9 Insert to data base')
+    print('\t10 Create query from json file')
+    print('\t11 Read data')
 
 def ext(data):
     ext = data.split('.')
@@ -160,6 +161,8 @@ if __name__ == '__main__':
                 try:
                     data_frame = readDataFrame(file_input, res)
                     printDataFrame(data_frame)
+                    ofile = pathFile(file_output, folder)
+                    data_frame.to_csv(ofile, index=False)
                 except:
                     print('File not found')
                     continue
@@ -167,6 +170,8 @@ if __name__ == '__main__':
                 try:
                     data_frame = readDataFrame(file_input, res)
                     printDataFrame(data_frame)
+                    ofile = pathFile(file_output, folder)
+                    data_frame.to_csv(ofile, index=False)
                 except:
                     print('File not found')
                     continue
@@ -247,8 +252,8 @@ if __name__ == '__main__':
             start = timeNow(datetime.now())
             db_name = input('Enter db name:')
             try:
-                query = input('Enter query file:')
-                f_open = open(query)
+                file_input = input('Enter query file:')
+                f_open = open(file_input)
             except:
                 print('File not found')
                 continue
@@ -302,15 +307,56 @@ if __name__ == '__main__':
                     data = json.load(f)
                 query_file = input('Enter query name:')
                 path_query = pathFile(query_file, folder)
+                print(path_query)
                 with open(path_query, 'w+') as f:
                     for row in data:
                         query_insert = 'INSERT INTO {} (ci, first_name, last_name, birthday, code1, sex, type, nationality, code2, code3) VALUES ("{}", "{}", "{}", "{}", "{}", {}, "{}", "{}", "{}", "{}"); \n'.format(table_name, row['ci'], row['first_name'], row['last_name'], row['birthday'], row['code1'], row['sex'], row['type'], row['nationality'], row['code2'], row['code3'])
                         f.write(query_insert)
+                        print(query_insert)
                 end = timeNow(datetime.now())
                 time_run = end - start
                 print(printMessage(start, end, time_run, file_input))
             except:
                 print('File not found')
                 continue
+        elif options == '11':
+            start = timeNow(datetime.now())
+            file_input = fileInput()
+            try:
+                res = ext(file_input)
+            except:
+                print('Extension not fount')
+                continue
+            folder = 'results'
+            if res == 'csv' or res == 'txt':
+                try:
+                    data_frame = readDataFrame(file_input, res)
+                    printDataFrame(data_frame)
+                except:
+                    print('File not found')
+                    continue
+            elif res == 'xlsx':
+                try:
+                    data_frame = readDataFrame(file_input, res)
+                    printDataFrame(data_frame)
+                except:
+                    print('File not found')
+                    continue
+            elif res == 'json':
+                try:
+                    data_frame = readDataFrame(file_input, res)
+                    printDataFrame(data_frame)
+                except:
+                    print('File not found')
+                    continue
+            end = timeNow(datetime.now())
+            time_run = end - start
+            print(printMessage(start, end, time_run, file_input))
+            logs = getLog()
+            count = int(logs[0])
+            name = logs[1]
+            saveLog(str(count), name, start, end, time_run, file_input)
+            count +=1
+            saveVar(count, name)
         else:
             continue
